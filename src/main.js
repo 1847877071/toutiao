@@ -7,6 +7,9 @@ import './styles/index.less'
 import ElementUI from 'element-ui'
 // 加载 element 组件库的样式
 import 'element-ui/lib/theme-chalk/index.css'
+import axios from 'axios'
+
+Vue.prototype.$axios = axios
 
 // 全局注册 element 组件库
 Vue.use(ElementUI)
@@ -16,3 +19,4 @@ new Vue({
   router,
   render: h => h(App)
 }).$mount('#app')
+
