@@ -1,15 +1,14 @@
-/**
+/*
  * 文章相关请求模块
  */
 import request from '@/utils/request.js'
-import database from 'mime-db'
 
 /*
 *获取文章列表
 */
 export const getArticles = params => {
   return request({
-    methods: 'GET',
+    method: 'GET',
     url: '/mp/v1_0/articles',
     // GET方法一般是Query参数，POST方法一般是body参数
     // Body参数使用data设置
@@ -27,7 +26,7 @@ export const getArticles = params => {
 */
 export const getArticlechannels = () => {
   return request({
-    methods: 'GET',
+    method: 'GET',
     url: '/mp/v1_0/channels'
   })
 }
@@ -37,7 +36,7 @@ export const getArticlechannels = () => {
 */
 export const deleteArticle = articleId => {
   return request({
-    methods: 'DELETE',
+    method: 'DELETE',
     // 接口文档中写的路径参数需要在url中传递
     // 凡是看见接口路径中有：xxx格式的字段，则需要传递路径参数
     // /mp/v1_0/articles/:target
@@ -50,8 +49,8 @@ export const deleteArticle = articleId => {
 */
 export const addArticle = (data, draft = false) => {
   return request({
-    methods:'POST',
-    url: '/mp/v1_0/articles', 
+    method: 'POST',
+    url: '/mp/v1_0/articles',
     params: {
       draft // 是否存为草稿（true 为草稿）
     },
@@ -62,10 +61,10 @@ export const addArticle = (data, draft = false) => {
 /*
 编辑文章
 */
-export const updateArticle = (articleId,data, draft = false) => {
+export const updateArticle = (articleId, data, draft = false) => {
   return request({
-    methods:'PUT',
-    url: `/mp/v1_0/articles/${articleId}`, 
+    method: 'PUT',
+    url: `/mp/v1_0/articles/${articleId}`,
     params: {
       draft // 是否存为草稿（true 为草稿）
     },
@@ -78,8 +77,8 @@ export const updateArticle = (articleId,data, draft = false) => {
 */
 export const getArticle = articleId => {
   return request({
-    methods:'GET',
-    url: `/mp/v1_0/articles/${articleId}`, 
+    method: 'GET',
+    url: `/mp/v1_0/articles/${articleId}`
     // params: {
     //   draft // 是否存为草稿（true 为草稿）
     // },

@@ -41,7 +41,7 @@
   </div>
 </template>
 <script>
-import { getArticlechannels,addArticle,updateArticle,getArticle } from '@/api/article'
+import { getArticlechannels, addArticle, updateArticle, getArticle } from '@/api/article'
 export default {
   name: 'PublishIndex',
   components: {
@@ -59,7 +59,7 @@ export default {
           images: [] // 封面图片的地址
         }, // 文章封面
         channel_id: '' // 文章频道
-      }      
+      }
     }
   },
   computed: {
@@ -68,36 +68,52 @@ export default {
   },
   created () {
     this.loadChannels()
-
-    // 由于我们让发布和修改使用的同一个组件
-    // 所以这里需要判断
-    // 如果路由路径参数中有id，则请求展示文章内容
     if (this.$route.query.id) {
       this.loadArticle()
     }
+    // 由于我们让发布和修改使用的同一个组件
+    // 所以这里需要判断
+    // 如果路由路径参数中有id，则请求展示文章内容
   },
   mounted () {
   },
   methods: {
     loadChannels () {
-      getArticlechannels().then( res => {
+      getArticlechannels().then(res => {
         // console.log(res)
         this.channels = res.data.data.channels
       })
-    },      
+    },
     onPublish (draft = false) {
-        // 找到数据接口
-        // 封装请求方法
-        // 请求提交表单
-        console.log(this.article)
-        addArticle(this.article,draft).then(res => {
+      // 找到数据接口
+      // 封装请求方法
+      // 请求提交表单
+
+      // 如果四修改文章，则执行修改操作，否则执行添加操作
+
+      // console.log(this.article)
+      const articleId = this.$route.query.id
+      if (articleId) {
+        // 执行修改操作，调用updateArticle接口函数
+        updateArticle(articleId, this.article, draft).then(res => {
+          console.log(res)
+          this.$message({
+            message: '修改成功',
+            type: 'success'
+          })
+        })
+      } else {
+        // 执行添加操作
+        addArticle(this.article, draft).then(res => {
           console.log(res)
           this.$message({
             message: '发布成功',
             type: 'success'
           })
+          this.$router.push('/article')
         })
-        // 处理响应结果
+      // 处理响应结果
+      }
     },
     loadArticle () {
       // 找到数据接口
@@ -105,11 +121,11 @@ export default {
       // 请求获取数据
       // 模板绑定展示
       getArticle(this.$route.query.id).then(res => {
+        // console.log(res)
         this.article = res.data.data
       })
     }
-  },
-  
+  }
 }
 </script>
 <style lang="less" scoped>
